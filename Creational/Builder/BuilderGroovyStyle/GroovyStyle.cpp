@@ -20,7 +20,7 @@ namespace html {
       if (tag.children.size() == 0 && tag.text.length() == 0)
       {
         os << "/>" << std::endl;
-      } 
+      }
       else
       {
         os << ">" << std::endl;
@@ -63,7 +63,7 @@ namespace html {
       : Tag("p", children)
     {
     }
-    
+
   };
 
   struct IMG : Tag
