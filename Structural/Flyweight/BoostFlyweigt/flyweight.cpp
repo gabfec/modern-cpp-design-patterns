@@ -1,21 +1,18 @@
-﻿#include <iostream>
+#include <iostream>
 #include <boost/bimap.hpp>
 #include <boost/flyweight.hpp>
-//#include <boost/flyweight/key_value.hpp>
 
 using namespace boost;
 using namespace flyweights;
 using namespace std;
 
-// naive
+// Naive solution
 typedef uint32_t key;
 
 struct User
 {
   User(const string& first_name, const string& last_name)
-    : first_name{add(first_name)}, last_name{add(last_name)}
-  {
-  }
+    : first_name{add(first_name)}, last_name{add(last_name)} {}
 
   const string& get_first_name() const
   {
@@ -66,11 +63,11 @@ bimap<key, string> User::names{};
 
 void naive_flyweight()
 {
-  User john_doe{ "John", "Doe" };
-  User jane_doe{ "Jane", "Doe" };
+  User john_smith{ "John", "Smith" };
+  User jane_smith{ "Jane", "Smith" };
 
-  cout << "John " << john_doe << endl;
-  cout << "Jane " << jane_doe << endl;
+  cout << "John " << john_smith << endl;
+  cout << "Jane " << jane_smith << endl;
 
   User::info();
 }
@@ -79,24 +76,21 @@ void naive_flyweight()
 
 struct User2
 {
-  // users share names! e.g., John Smith
   flyweight<string> first_name, last_name;
-  //string first_name, last_name;
-  // ...
 
   User2(const string& first_name, const string& last_name)
-  {
-  }
+    : first_name(first_name), last_name(last_name)  {}
 };
 
 void boost_flyweight()
 {
-  User2 john_doe{ "John", "Doe" };
-  User2 jane_doe{ "Jane", "Doe" };
+  User2 john_smith{ "John", "Smith" };
+  User2 jane_smith{ "Jane", "Smith" };
 
-  
-  cout << boolalpha <<  (&jane_doe.last_name.get() == &john_doe.last_name.get());
-  //cout << (&jane_doe.last_name == &john_doe.last_name);
+  cout << boolalpha;
+  cout << (&jane_smith.first_name.get() == &john_smith.first_name.get()) << endl;
+  cout << (&jane_smith.last_name.get() == &john_smith.last_name.get()) << endl;
+  cout << (&jane_smith.last_name == &john_smith.last_name);
 }
 
 int main()
